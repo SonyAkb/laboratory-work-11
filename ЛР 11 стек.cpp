@@ -1,9 +1,9 @@
-#include <iostream>
+п»ї#include <iostream>
 using namespace std;
 
-struct Stack {
-	char data; //данные
-	Stack* ptr_to_prev; //адрес на предыдущий элемент
+struct Stack { //СЃС‚РµРє
+	char data; //РґР°РЅРЅС‹Рµ
+	Stack* ptr_to_prev; //Р°РґСЂРµСЃ РЅР° РїСЂРµРґС‹РґСѓС‰РёР№ СЌР»РµРјРµРЅС‚
 };
 
 Stack* make_stack( int n) {
@@ -12,16 +12,16 @@ Stack* make_stack( int n) {
 		Stack* the_upper_element, * pointer_element = new Stack;
 		the_upper_element = NULL;
 
-		cout << "Введите символ ";
+		cout << "Р’РІРµРґРёС‚Рµ СЌР»РµРјРµРЅС‚ ";
 		cin >> symbol;
 
-		pointer_element->data = symbol; //присваиваю знаяение новому элементу
-		pointer_element->ptr_to_prev = NULL; //адрес на предыдущий элемент
-		the_upper_element = pointer_element; //изменяю верхний элемент в стеке
+		pointer_element->data = symbol; //РїСЂРёСЃРІР°РёРІР°СЋ Р·РЅР°СЏРµРЅРёРµ РЅРѕРІРѕРјСѓ СЌР»РµРјРµРЅС‚Сѓ
+		pointer_element->ptr_to_prev = NULL; //Р°РґСЂРµСЃ РЅР° РїСЂРµРґС‹РґСѓС‰РёР№ СЌР»РµРјРµРЅС‚
+		the_upper_element = pointer_element; //РёР·РјРµРЅСЏСЋ РІРµСЂС…РЅРёР№ СЌР»РµРјРµРЅС‚ РІ СЃС‚РµРєРµ
 
-		for (int i = 1; i < n; i++) { //добавление новых элемнтов
+		for (int i = 1; i < n; i++) { //РґРѕР±Р°РІР»РµРЅРёРµ РЅРѕРІС‹С… СЌР»РµРјРЅС‚РѕРІ
 			Stack* new_element = new Stack;
-			cout << "Введите символ ";
+			cout << "Р’РІРµРґРёС‚Рµ СЃРёРјРІРѕР» ";
 			cin >> symbol;
 
 			new_element->data = symbol;
@@ -34,14 +34,14 @@ Stack* make_stack( int n) {
 }
 
 Stack* push(Stack*& the_upper_element, char symbol) {
-	Stack* pointer = new Stack; //выделяю память для нового стека
-	pointer->data = symbol; //присваиваю данные новому элементу
-	pointer->ptr_to_prev = the_upper_element; //адрес предыдущего элемента
-	the_upper_element = pointer; //новый верхний элемент
-	return the_upper_element; //возвращаю новый верхний элемент
+	Stack* pointer = new Stack; //РІС‹РґРµР»СЏСЋ РїР°РјСЏС‚СЊ РґР»СЏ РЅРѕРІРѕРіРѕ СЃС‚РµРєР°
+	pointer->data = symbol; //РїСЂРёСЃРІР°РёРІР°СЋ РґР°РЅРЅС‹Рµ РЅРѕРІРѕРјСѓ СЌР»РµРјРµРЅС‚Сѓ
+	pointer->ptr_to_prev = the_upper_element; //Р°РґСЂРµСЃ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
+	the_upper_element = pointer; //РЅРѕРІС‹Р№ РІРµСЂС…РЅРёР№ СЌР»РµРјРµРЅС‚
+	return the_upper_element; //РІРѕР·РІСЂР°С‰Р°СЋ РЅРѕРІС‹Р№ РІРµСЂС…РЅРёР№ СЌР»РµРјРµРЅС‚
 }
 
-char pop_element(Stack*& the_upper_element) { //нахожу верхний элемент
+char pop_element(Stack*& the_upper_element) { //РЅР°С…РѕР¶Сѓ РІРµСЂС…РЅРёР№ СЌР»РµРјРµРЅС‚
 	Stack* pointer_element = the_upper_element;
 	int k = 0;
 	while (pointer_element != NULL) {
@@ -51,57 +51,57 @@ char pop_element(Stack*& the_upper_element) { //нахожу верхний элемент
 	pointer_element = the_upper_element;
 
 	if (k == 1) {
-		char data_upper = the_upper_element->data; //данные верхнего элемента
+		char data_upper = the_upper_element->data; //РґР°РЅРЅС‹Рµ РІРµСЂС…РЅРµРіРѕ СЌР»РµРјРµРЅС‚Р°
 		delete pointer_element;
 		the_upper_element = NULL;
 		return data_upper;
 	}
 	else {
 		Stack* t = pointer_element->ptr_to_prev;
-		char data_ptr = pointer_element->data; //данные необходимого элемента
-		the_upper_element = t; //меняю верхний элемент
+		char data_ptr = pointer_element->data; //РґР°РЅРЅС‹Рµ РЅРµРѕР±С…РѕРґРёРјРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+		the_upper_element = t; //РјРµРЅСЏСЋ РІРµСЂС…РЅРёР№ СЌР»РµРјРµРЅС‚
 		delete pointer_element;
 		return data_ptr;
 	}
-	//the_upper_element - верхний элемент
+	//the_upper_element - РІРµСЂС…РЅРёР№ СЌР»РµРјРµРЅС‚
 }
 
 void from_stack_to_stack(Stack*& stack_num_1, Stack*& stack_num_2, int n) {
-	//перенос элементов из стека в стек
-	for (int i = 0; i < n; i++) { //переношу элементы из стека 1 в стек 2
-		char t = pop_element(stack_num_1); //извлекаю верхний элемент из первого
-		push(stack_num_2, t); //переношу элементы во второй стек
+	//РїРµСЂРµРЅРѕСЃ СЌР»РµРјРµРЅС‚РѕРІ РёР· СЃС‚РµРєР° РІ СЃС‚РµРє
+	for (int i = 0; i < n; i++) { //РїРµСЂРµРЅРѕС€Сѓ СЌР»РµРјРµРЅС‚С‹ РёР· СЃС‚РµРєР° 1 РІ СЃС‚РµРє 2
+		char t = pop_element(stack_num_1); //РёР·РІР»РµРєР°СЋ РІРµСЂС…РЅРёР№ СЌР»РµРјРµРЅС‚ РёР· РїРµСЂРІРѕРіРѕ
+		push(stack_num_2, t); //РїРµСЂРµРЅРѕС€Сѓ СЌР»РµРјРµРЅС‚С‹ РІРѕ РІС‚РѕСЂРѕР№ СЃС‚РµРє
 	}
 }
 
 
 void print_stack(Stack* the_upper_element) {
-	cout << endl << "Текущий стек:" << endl;
-	if (the_upper_element != NULL) { //если стек не пустой
-		Stack* pointer_element = the_upper_element;
-		while (pointer_element != NULL) { //пока не дойду до нижнего элемента
+	cout << endl << "РўРµРєСѓС‰РёР№ СЃС‚РµРє:" << endl;
+	if (the_upper_element != NULL) { //РµСЃР»Рё СЃС‚РµРє РЅРµ РїСѓСЃС‚РѕР№
+		Stack* pointer_element = the_upper_element; //СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚
+		while (pointer_element != NULL) { //РїРѕРєР° РЅРµ РґРѕР№РґСѓ РґРѕ РЅРёР¶РЅРµРіРѕ СЌР»РµРјРµРЅС‚Р°
 			cout << pointer_element->data << ' ';
 			pointer_element = pointer_element->ptr_to_prev;
 		}
-		delete pointer_element; //освобождаю память
+		delete pointer_element; //РѕСЃРІРѕР±РѕР¶РґР°СЋ РїР°РјСЏС‚СЊ
 	}
-	else { //если стек пуст
-		cout << "Стек пуст!";
+	else { //РµСЃР»Рё СЃС‚РµРє РїСѓСЃС‚
+		cout << "РЎС‚РµРє РїСѓСЃС‚!";
 	}
 	cout << endl << endl;
 }
 
-void del_all_stack(Stack*& the_upper_element) { //удаление всех элементов стека
+void del_all_stack(Stack*& the_upper_element) { //СѓРґР°Р»РµРЅРёРµ РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ СЃС‚РµРєР°
 	while (the_upper_element->ptr_to_prev != NULL) {
 		Stack* pointer_element = the_upper_element->ptr_to_prev;
-		delete the_upper_element; //освобождение памяти верхнего элемента
+		delete the_upper_element; //РѕСЃРІРѕР±РѕР¶РґРµРЅРёРµ РїР°РјСЏС‚Рё РІРµСЂС…РЅРµРіРѕ СЌР»РµРјРµРЅС‚Р°
 		the_upper_element = pointer_element;
 	}
 	the_upper_element = NULL;
 }
 
 int main() {
-	setlocale(LC_ALL, "Russian"); //локализация
+	setlocale(LC_ALL, "Russian"); //Р»РѕРєР°Р»РёР·Р°С†РёСЏ
 	system("chcp 1251");
 	system("cls");
 
@@ -109,62 +109,63 @@ int main() {
 	char symbol_key;
 
 	do {
-		cout << "Введите количество элементов ";
-		cin >> n; //количество элементов в списке
+		cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ ";
+		cin >> n; //РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃРїРёСЃРєРµ
 	} while (n < 1);
 	cout << endl;
 
-	cout << "Введите элементы стека:" << endl;
+	cout << "Р’РІРµРґРёС‚Рµ СЌР»РµРјРµРЅС‚С‹ СЃС‚РµРєР°:" << endl;
 
-	Stack* stack_1 = make_stack(n); //создаю стек
-	print_stack(stack_1); //вывожу текущий стек
+	Stack* stack_1 = make_stack(n); //СЃРѕР·РґР°СЋ СЃС‚РµРє
+	print_stack(stack_1); //РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰РёР№ СЃС‚РµРє
 
-	cout << "Введите КЛЮЧ элемента, который вы хотите удалить ";
+	cout << "Р’РІРµРґРёС‚Рµ РљР›Р®Р§ СЌР»РµРјРµРЅС‚Р°, РєРѕС‚РѕСЂС‹Р№ РІС‹ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ ";
 	cin >> symbol_key;
 
-	Stack* stack_2 = make_stack(0); //создаю пустой стек
+	Stack* stack_2 = make_stack(0); //СЃРѕР·РґР°СЋ РїСѓСЃС‚РѕР№ СЃС‚РµРє
 	for (int i = 0; i < n; i++) {
-		//перенос всех элементов кроме элемента с КЛЮЧОМ во второй стек
-		char t = pop_element(stack_1); //извлекаю верхний элемент
-		if (t != symbol_key) { //если символ не равен ключевому
-			push(stack_2, t); //переношу во второй стек
+		//РїРµСЂРµРЅРѕСЃ РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ РєСЂРѕРјРµ СЌР»РµРјРµРЅС‚Р° СЃ РљР›Р®Р§РћРњ РІРѕ РІС‚РѕСЂРѕР№ СЃС‚РµРє
+		char t = pop_element(stack_1); //РёР·РІР»РµРєР°СЋ РІРµСЂС…РЅРёР№ СЌР»РµРјРµРЅС‚
+		if (t != symbol_key) { //РµСЃР»Рё СЃРёРјРІРѕР» РЅРµ СЂР°РІРµРЅ РєР»СЋС‡РµРІРѕРјСѓ
+			push(stack_2, t); //РїРµСЂРµРЅРѕС€Сѓ РІРѕ РІС‚РѕСЂРѕР№ СЃС‚РµРє
 		}
-		else { //если символ равен ключевому
-			++k; //увеличиваю количество ключевых символов
+		else { //РµСЃР»Рё СЃРёРјРІРѕР» СЂР°РІРµРЅ РєР»СЋС‡РµРІРѕРјСѓ
+			++k; //СѓРІРµР»РёС‡РёРІР°СЋ РєРѕР»РёС‡РµСЃС‚РІРѕ РєР»СЋС‡РµРІС‹С… СЃРёРјРІРѕР»РѕРІ
 		}
 	}
-	n -= k;//изменяю количество элементов в стеке
+	n -= k;//РёР·РјРµРЅСЏСЋ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃС‚РµРєРµ
 
 	from_stack_to_stack(stack_2, stack_1, n);
-	print_stack(stack_1); //вывожу текущий стек
+	print_stack(stack_1); //РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰РёР№ СЃС‚РµРє
 
 	do {
-		cout << "Введите количество элементов, которые необходимо ДОБАВИТЬ ";
-		cin >> k; //количество элементов, которые надо добавить
+		cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РЅРµРѕР±С…РѕРґРёРјРѕ Р”РћР‘РђР’РРўР¬ ";
+		cin >> k; //РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РЅР°РґРѕ РґРѕР±Р°РІРёС‚СЊ
 	} while (k < 1);
 	cout << endl;
 
 	do {
-		cout << "Введите номер элемента, ПЕРЕД которым необходимо добавить новые элементы ";
-		cin >> befor_add; //НОМЕР элемента
+		cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЌР»РµРјРµРЅС‚Р°, РџР•Р Р•Р” РєРѕС‚РѕСЂС‹Рј РЅРµРѕР±С…РѕРґРёРјРѕ РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Рµ СЌР»РµРјРµРЅС‚С‹ ";
+		cin >> befor_add; //РќРћРњР•Р  СЌР»РµРјРµРЅС‚Р°
 	} while (befor_add < 1 || befor_add > n);
 	cout << endl;
 	
 	from_stack_to_stack(stack_1, stack_2, n - befor_add + 1);
 
-	cout << "Введите новые элементы стека:" << endl;
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРІС‹Рµ СЌР»РµРјРµРЅС‚С‹ СЃС‚РµРєР°:" << endl;
 	for (int i = 0; i < k; i++) {
-		cout << "Введите символ ";
+		cout << "Р’РІРµРґРёС‚Рµ СЃРёРјРІРѕР» ";
 		cin >> symbol_key;
-		push(stack_1, symbol_key); //добавляю символ в стек 1
+		push(stack_1, symbol_key); //РґРѕР±Р°РІР»СЏСЋ СЃРёРјРІРѕР» РІ СЃС‚РµРє 1
 	}
 
 	from_stack_to_stack(stack_2, stack_1, n - befor_add + 1);
-	print_stack(stack_1); //вывожу текущий стек
+	print_stack(stack_1); //РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰РёР№ СЃС‚РµРє
 
-	n += k;//изменяю количество элементов в стеке
-	cout << "Очищение памяти ..." << endl;
-	del_all_stack(stack_1); //
-	print_stack(stack_1);//вывожу текущий стек
+	n += k;//РёР·РјРµРЅСЏСЋ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃС‚РµРєРµ
+	cout << "РћС‡РёС‰РµРЅРёРµ РїР°РјСЏС‚Рё ..." << endl;
+	del_all_stack(stack_1); //РѕС‡РёС‰Р°СЋ РІРµСЃСЊ СЃС‚РµРє
+	cout << "Р—Р°РІРµСЂС€РµРЅРѕ" << endl;
+	print_stack(stack_1);//РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰РёР№ СЃС‚РµРє
 	return 0;
 }

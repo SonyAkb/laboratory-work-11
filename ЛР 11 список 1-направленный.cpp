@@ -1,9 +1,9 @@
-#include <iostream>
+п»ї#include <iostream>
 using namespace std;
 
 struct Node {
-    char data; //данные
-    Node* ptr_to_next_node = nullptr; //указатель на следующий элемент
+    char data; //РґР°РЅРЅС‹Рµ
+    Node* ptr_to_next_node = nullptr; //СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚
 };
 
 struct List {
@@ -11,81 +11,81 @@ struct List {
     Node* teil_node = nullptr;
 };
 
-void pushBack(List& list, const int& data) { //добавляю новый элемент в конец списка
-    Node* new_node = new Node; //создаю новый динамический узел
-    new_node->data = data; //присваиваю полю узла данные
-    if (list.head_node == nullptr) { //если список пустой
-        list.head_node = new_node; //новый узел - головной узел списка
-        list.teil_node = new_node; //новый узел - хвостовой узел списка
+void pushBack(List& list, const int& data) { //РґРѕР±Р°РІР»СЏСЋ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
+    Node* new_node = new Node; //СЃРѕР·РґР°СЋ РЅРѕРІС‹Р№ РґРёРЅР°РјРёС‡РµСЃРєРёР№ СѓР·РµР»
+    new_node->data = data; //РїСЂРёСЃРІР°РёРІР°СЋ РїРѕР»СЋ СѓР·Р»Р° РґР°РЅРЅС‹Рµ
+    if (list.head_node == nullptr) { //РµСЃР»Рё СЃРїРёСЃРѕРє РїСѓСЃС‚РѕР№
+        list.head_node = new_node; //РЅРѕРІС‹Р№ СѓР·РµР» - РіРѕР»РѕРІРЅРѕР№ СѓР·РµР» СЃРїРёСЃРєР°
+        list.teil_node = new_node; //РЅРѕРІС‹Р№ СѓР·РµР» - С…РІРѕСЃС‚РѕРІРѕР№ СѓР·РµР» СЃРїРёСЃРєР°
     }
-    else { // если список не путой
-        list.teil_node->ptr_to_next_node = new_node; //связываю новый узел с хвостовым
-        list.teil_node = new_node; //меняю хвостовой узел на новый
+    else { // РµСЃР»Рё СЃРїРёСЃРѕРє РЅРµ РїСѓС‚РѕР№
+        list.teil_node->ptr_to_next_node = new_node; //СЃРІСЏР·С‹РІР°СЋ РЅРѕРІС‹Р№ СѓР·РµР» СЃ С…РІРѕСЃС‚РѕРІС‹Рј
+        list.teil_node = new_node; //РјРµРЅСЏСЋ С…РІРѕСЃС‚РѕРІРѕР№ СѓР·РµР» РЅР° РЅРѕРІС‹Р№
     }
 }
 
-void add_elements(List& list, int befor_number) { //добавляю новый элемент
+void add_elements(List& list, int befor_number) { //РґРѕР±Р°РІР»СЏСЋ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚
     char element;
-    cout << "Введите новый элемент ";
+    cout << "Р’РІРµРґРёС‚Рµ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ ";
     cin >> element;
 
-    Node* new_node = new Node; //создаю новый узел
-    new_node->data = element; //присваиваю значение данных
+    Node* new_node = new Node; //СЃРѕР·РґР°СЋ РЅРѕРІС‹Р№ СѓР·РµР»
+    new_node->data = element; //РїСЂРёСЃРІР°РёРІР°СЋ Р·РЅР°С‡РµРЅРёРµ РґР°РЅРЅС‹С…
 
-    if (befor_number == 1) { //если ввовдить новый элемент перед первым элементом
+    if (befor_number == 1) { //РµСЃР»Рё РІРІРѕРІРґРёС‚СЊ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РїРµСЂРµРґ РїРµСЂРІС‹Рј СЌР»РµРјРµРЅС‚РѕРј
         new_node->ptr_to_next_node = list.head_node;
         list.head_node = new_node;
     }
     else {
         Node* pointer_node = list.head_node;
-        for (int i = 0; i < befor_number - 2; i++) { //иду ДО элемента перед которым над добавить новый
-            pointer_node = pointer_node->ptr_to_next_node; //элемент перед необходимым элементом
+        for (int i = 0; i < befor_number - 2; i++) { //РёРґСѓ Р”Рћ СЌР»РµРјРµРЅС‚Р° РїРµСЂРµРґ РєРѕС‚РѕСЂС‹Рј РЅР°Рґ РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№
+            pointer_node = pointer_node->ptr_to_next_node; //СЌР»РµРјРµРЅС‚ РїРµСЂРµРґ РЅРµРѕР±С…РѕРґРёРјС‹Рј СЌР»РµРјРµРЅС‚РѕРј
         }
-        new_node->ptr_to_next_node = pointer_node->ptr_to_next_node; //связываю новый узел со следующим
-        pointer_node->ptr_to_next_node = new_node; //связываю новый узел с предыдущим
+        new_node->ptr_to_next_node = pointer_node->ptr_to_next_node; //СЃРІСЏР·С‹РІР°СЋ РЅРѕРІС‹Р№ СѓР·РµР» СЃРѕ СЃР»РµРґСѓСЋС‰РёРј
+        pointer_node->ptr_to_next_node = new_node; //СЃРІСЏР·С‹РІР°СЋ РЅРѕРІС‹Р№ СѓР·РµР» СЃ РїСЂРµРґС‹РґСѓС‰РёРј
 
     }
 }
 
-void print_list(List& list) { //вывод текущего списка
-    cout << "Текущий список:" << endl;
+void print_list(List& list) { //РІС‹РІРѕРґ С‚РµРєСѓС‰РµРіРѕ СЃРїРёСЃРєР°
+    cout << "РўРµРєСѓС‰РёР№ СЃРїРёСЃРѕРє:" << endl;
     Node* current_node = list.head_node;
     if (current_node != nullptr) {
-        while (current_node != nullptr) { //пока не дойду до последнего элемента
-            cout << current_node->data << ' '; //вывод данных текущего узла
-            current_node = current_node->ptr_to_next_node; //переход к следующему узлу    
+        while (current_node != nullptr) { //РїРѕРєР° РЅРµ РґРѕР№РґСѓ РґРѕ РїРѕСЃР»РµРґРЅРµРіРѕ СЌР»РµРјРµРЅС‚Р°
+            cout << current_node->data << ' '; //РІС‹РІРѕРґ РґР°РЅРЅС‹С… С‚РµРєСѓС‰РµРіРѕ СѓР·Р»Р°
+            current_node = current_node->ptr_to_next_node; //РїРµСЂРµС…РѕРґ Рє СЃР»РµРґСѓСЋС‰РµРјСѓ СѓР·Р»Сѓ    
         }
     }
     else {
-        cout << "Список пустой!";
+        cout << "РЎРїРёСЃРѕРє РїСѓСЃС‚РѕР№!";
     }
     cout << endl << endl;
-    delete current_node; //очищаю память
+    delete current_node; //РѕС‡РёС‰Р°СЋ РїР°РјСЏС‚СЊ
 }
 
-void pop_element(List& list, char num_del_el) { //удаление элемента
-    if (list.head_node != nullptr) { //если список НЕ пустой
+void pop_element(List& list, char num_del_el) { //СѓРґР°Р»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р°
+    if (list.head_node != nullptr) { //РµСЃР»Рё СЃРїРёСЃРѕРє РќР• РїСѓСЃС‚РѕР№
         Node* pointer_node = list.head_node;
-        while (pointer_node != nullptr) { //пока не дойду до конца
+        while (pointer_node != nullptr) { //РїРѕРєР° РЅРµ РґРѕР№РґСѓ РґРѕ РєРѕРЅС†Р°
             if (pointer_node->data == num_del_el) {
-                if (pointer_node == list.head_node) { //если надо удалить первый элемент
+                if (pointer_node == list.head_node) { //РµСЃР»Рё РЅР°РґРѕ СѓРґР°Р»РёС‚СЊ РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚
                     Node* new_Head = list.head_node->ptr_to_next_node;
-                    delete list.head_node; //удаляю текущий головной элемент
-                    list.head_node = new_Head; //присваиваю головному элементу новый элемент
+                    delete list.head_node; //СѓРґР°Р»СЏСЋ С‚РµРєСѓС‰РёР№ РіРѕР»РѕРІРЅРѕР№ СЌР»РµРјРµРЅС‚
+                    list.head_node = new_Head; //РїСЂРёСЃРІР°РёРІР°СЋ РіРѕР»РѕРІРЅРѕРјСѓ СЌР»РµРјРµРЅС‚Сѓ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚
                     pointer_node = list.head_node;
                 }
-                else { //если удалять НЕ первый элемент
+                else { //РµСЃР»Рё СѓРґР°Р»СЏС‚СЊ РќР• РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚
                     Node* before_deletion = list.head_node;
                     while (before_deletion->ptr_to_next_node != pointer_node) {
                         before_deletion = before_deletion->ptr_to_next_node;
                     }
-                    before_deletion->ptr_to_next_node = pointer_node->ptr_to_next_node; //связываю узлы
+                    before_deletion->ptr_to_next_node = pointer_node->ptr_to_next_node; //СЃРІСЏР·С‹РІР°СЋ СѓР·Р»С‹
                     pointer_node = before_deletion;
 
                 }
             }
             else {
-                pointer_node = pointer_node->ptr_to_next_node; //перехожу на следующий элемент
+                pointer_node = pointer_node->ptr_to_next_node; //РїРµСЂРµС…РѕР¶Сѓ РЅР° СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚
             }
         }
     }
@@ -96,15 +96,15 @@ void del_all_list(List& list) {
     if (ptr_node != nullptr) {
         while (ptr_node != nullptr) {
             Node* new_Head = list.head_node->ptr_to_next_node;
-            delete list.head_node; //удаляю текущий головной элемент
-            list.head_node = new_Head; //присваиваю головному элементу новый элемент
+            delete list.head_node; //СѓРґР°Р»СЏСЋ С‚РµРєСѓС‰РёР№ РіРѕР»РѕРІРЅРѕР№ СЌР»РµРјРµРЅС‚
+            list.head_node = new_Head; //РїСЂРёСЃРІР°РёРІР°СЋ РіРѕР»РѕРІРЅРѕРјСѓ СЌР»РµРјРµРЅС‚Сѓ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚
             ptr_node = list.head_node;
         }
     }
 }
 
 int main() {
-    setlocale(LC_ALL, "Russian"); //локализация
+    setlocale(LC_ALL, "Russian"); //Р»РѕРєР°Р»РёР·Р°С†РёСЏ
     system("chcp 1251");
     system("cls");
 
@@ -112,55 +112,55 @@ int main() {
     char symbol_key;
 
     do {
-        cout << "Введите количество элементов ";
+        cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ ";
         cin >> n;
     } while (n < 1);
     cout << endl;
 
-    List list; //инициализирую список
+    List list; //РёРЅРёС†РёР°Р»РёР·РёСЂСѓСЋ СЃРїРёСЃРѕРє
 
     for (int i = 0; i < n; i++) {
-        cout << "Введите символ ";
+        cout << "Р’РІРµРґРёС‚Рµ СЃРёРјРІРѕР» ";
         cin >> symbol_key;
         pushBack(list, symbol_key);
     }
     cout << endl;
 
-    print_list(list); //вывожу текущий массив
+    print_list(list); //РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰РёР№ РјР°СЃСЃРёРІ
 
-    cout << "Введите КЛЮЧ элемента, который вы хотите удалить ";
+    cout << "Р’РІРµРґРёС‚Рµ РљР›Р®Р§ СЌР»РµРјРµРЅС‚Р°, РєРѕС‚РѕСЂС‹Р№ РІС‹ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ ";
     cin >> symbol_key;
 
     cout << endl;
-    pop_element(list, symbol_key); //удаляю элемент
+    pop_element(list, symbol_key); //СѓРґР°Р»СЏСЋ СЌР»РµРјРµРЅС‚
     cout << "------" << endl;
-    --n; //изменяю длину списка
-    print_list(list); //вывожу текущий массив
+    --n; //РёР·РјРµРЅСЏСЋ РґР»РёРЅСѓ СЃРїРёСЃРєР°
+    print_list(list); //РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰РёР№ РјР°СЃСЃРёРІ
 
     do {
-        cout << "Введите номер элемента, ПЕРЕД которым необходимо добавить новые элементы ";
-        cin >> befor_add; //НОМЕР элемента
+        cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЌР»РµРјРµРЅС‚Р°, РџР•Р Р•Р” РєРѕС‚РѕСЂС‹Рј РЅРµРѕР±С…РѕРґРёРјРѕ РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Рµ СЌР»РµРјРµРЅС‚С‹ ";
+        cin >> befor_add; //РќРћРњР•Р  СЌР»РµРјРµРЅС‚Р°
     } while (befor_add < 1 || befor_add > n);
     cout << endl;
 
     do {
-        cout << "Введите количество элементов, которые необходимо добавить ";
-        cin >> k; //количество элементов, которые надо добавить
+        cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РЅРµРѕР±С…РѕРґРёРјРѕ РґРѕР±Р°РІРёС‚СЊ ";
+        cin >> k; //РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РЅР°РґРѕ РґРѕР±Р°РІРёС‚СЊ
     } while (k < 1);
-    n += k; //изменяю длину списка
+    n += k; //РёР·РјРµРЅСЏСЋ РґР»РёРЅСѓ СЃРїРёСЃРєР°
     cout << endl;
 
-    for (int i = 0; i < k; i++) { //добавляю новые элементы
+    for (int i = 0; i < k; i++) { //РґРѕР±Р°РІР»СЏСЋ РЅРѕРІС‹Рµ СЌР»РµРјРµРЅС‚С‹
         add_elements(list, befor_add + i);
     }
     cout << endl;
-    print_list(list); //вывожу текущий массив
-    cout << "Очищение памяти ..." << endl;
+    print_list(list); //РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰РёР№ РјР°СЃСЃРёРІ
+    cout << "РћС‡РёС‰РµРЅРёРµ РїР°РјСЏС‚Рё ..." << endl;
     del_all_list(list);
 
-    cout << "Завершено" << endl;
+    cout << "Р—Р°РІРµСЂС€РµРЅРѕ" << endl;
     cout << endl;
-    print_list(list); //вывожу текущий массив
+    print_list(list); //РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰РёР№ РјР°СЃСЃРёРІ
 
     return 0;
 }

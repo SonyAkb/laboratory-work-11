@@ -1,151 +1,157 @@
-#include <iostream>
+п»ї#include <iostream>
 using namespace std;
 
-
 struct Node {
-	char data; //данные
-	Node* ptr_to_next_node; //указатель на следующий элемент
+	char data; //РґР°РЅРЅС‹Рµ
+	Node* ptr_to_next_node; //СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚
 };
 
-
-struct Queue { //очередь
-	int size; //размер
+struct Queue { //РѕС‡РµСЂРµРґСЊ
+	int size; //СЂР°Р·РјРµСЂ
 	Node* head_node = nullptr;
 	Node* teil_node = nullptr;
 };
 
-
-void init_queue(Queue& q, const char& symbol) { //инициализирую очередь
-	Node* new_node = new Node; //резервирую память под новый элемент
-	new_node->data = symbol; //присваиваю данные
-	q.head_node = new_node; //головной элемент
-	q.teil_node = new_node; //хвостовой элемент
-	q.size = 1; //размер очереди, т.к. есть только один элемент
+void init_queue(Queue& line, const char& symbol) { //РёРЅРёС†РёР°Р»РёР·РёСЂСѓСЋ РѕС‡РµСЂРµРґСЊ
+	Node* new_node = new Node; //СЂРµР·РµСЂРІРёСЂСѓСЋ РїР°РјСЏС‚СЊ РїРѕРґ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚
+	new_node->data = symbol; //РїСЂРёСЃРІР°РёРІР°СЋ РґР°РЅРЅС‹Рµ
+	line.head_node = new_node; //РіРѕР»РѕРІРЅРѕР№ СЌР»РµРјРµРЅС‚
+	line.teil_node = new_node; //С…РІРѕСЃС‚РѕРІРѕР№ СЌР»РµРјРµРЅС‚
+	line.size = 1; //СЂР°Р·РјРµСЂ РѕС‡РµСЂРµРґРё, С‚.Рє. РµСЃС‚СЊ С‚РѕР»СЊРєРѕ РѕРґРёРЅ СЌР»РµРјРµРЅС‚
 }
 
-
-void push(Queue& q, const char& symbol) { //добавляю элемент в конец очереди
-	Node* new_node = new Node; //резервирую память под новый элемент
-	q.size++; //увеличиваю текущий размер очереди на один
-	new_node->data = symbol; //присваиваю данные
-	new_node->ptr_to_next_node = nullptr; //последний элемент не указывает на ч-л
-	q.teil_node ->ptr_to_next_node = new_node; //прошлый последний элемент указывает на новый последний
-	q.teil_node = new_node; //новый хвостовой элемент
+void push_element(Queue& line, const char& symbol) { //РґРѕР±Р°РІР»СЏСЋ СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† РѕС‡РµСЂРµРґРё
+	Node* new_node = new Node; //СЂРµР·РµСЂРІРёСЂСѓСЋ РїР°РјСЏС‚СЊ РїРѕРґ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚
+	line.size++; //СѓРІРµР»РёС‡РёРІР°СЋ С‚РµРєСѓС‰РёР№ СЂР°Р·РјРµСЂ РѕС‡РµСЂРµРґРё РЅР° РѕРґРёРЅ
+	new_node->data = symbol; //РїСЂРёСЃРІР°РёРІР°СЋ РґР°РЅРЅС‹Рµ
+	new_node->ptr_to_next_node = nullptr; //РїРѕСЃР»РµРґРЅРёР№ СЌР»РµРјРµРЅС‚ РЅРµ СѓРєР°Р·С‹РІР°РµС‚ РЅР° С‡-Р»
+	line.teil_node ->ptr_to_next_node = new_node; //РїСЂРѕС€Р»С‹Р№ РїРѕСЃР»РµРґРЅРёР№ СЌР»РµРјРµРЅС‚ СѓРєР°Р·С‹РІР°РµС‚ РЅР° РЅРѕРІС‹Р№ РїРѕСЃР»РµРґРЅРёР№
+	line.teil_node = new_node; //РЅРѕРІС‹Р№ С…РІРѕСЃС‚РѕРІРѕР№ СЌР»РµРјРµРЅС‚
 }
 
-
-
-void new_queue(Queue& q, int n) { //формирую очередь
+void new_queue(Queue& line, int n) { //С„РѕСЂРјРёСЂСѓСЋ РѕС‡РµСЂРµРґСЊ
 	char symbol;
-	cout << "Введите элемент ";
+	cout << "Р’РІРµРґРёС‚Рµ СЌР»РµРјРµРЅС‚ ";
 	cin >> symbol;
-	init_queue(q, symbol); //инициализирую первым элементом
+	init_queue(line, symbol); //РёРЅРёС†РёР°Р»РёР·РёСЂСѓСЋ РїРµСЂРІС‹Рј СЌР»РµРјРµРЅС‚РѕРј
 	for (int i = 1; i < n; i++) {
-		cout << "Введите элемент ";
-		cin >> symbol; //ввод элемента
-		push(q, symbol); //ставлю новый элемент в конец очереди
+		cout << "Р’РІРµРґРёС‚Рµ СЌР»РµРјРµРЅС‚ ";
+		cin >> symbol; //РІРІРѕРґ СЌР»РµРјРµРЅС‚Р°
+		push_element(line, symbol); //СЃС‚Р°РІР»СЋ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† РѕС‡РµСЂРµРґРё
 	}
 }
 
-
-void print_queue(Queue& q) { //вывод очереди
-	cout << endl << "Текущая очередь: " << endl;
-	Node* tmp = q.head_node; //указатель на первый элемент
-	cout << "start -> ";
-	while (tmp != nullptr) { //пока не дойду до конца
-		cout << tmp -> data << ' '; //вывожу значение текущего элемента
-		tmp = tmp->ptr_to_next_node; //перехожу на следующий узел
-	}
-	cout << "end" << endl;
-}
-
-void pop_element(Queue& q) { //удаляю головной элемент из очереди
-	Node* tmp = q.head_node; //указатель на первый элемент
-	q.head_node = q.head_node->ptr_to_next_node; //голова - следующий элемент
-	--q.size; //уменьшаю длину очереди
-	delete tmp; //освобождаю память
-}
-
-void delete_key(Queue& q, char symbol) {
-	int counter = 0;
-	while (counter != q.size) { //пока не обойду всю очередь
-		if (q.head_node->data == symbol) { //если первый элемент - ключ
-			pop_element(q); //удаляю голову
+void print_queue(Queue& line) { //РІС‹РІРѕРґ РѕС‡РµСЂРµРґРё
+	cout << endl << "РўРµРєСѓС‰Р°СЏ РѕС‡РµСЂРµРґСЊ: " << endl;
+	if (line.head_node != nullptr) {
+		Node* pointer_q = line.head_node; //СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚
+		cout << "start -> ";
+		while (pointer_q != nullptr) { //РїРѕРєР° РЅРµ РґРѕР№РґСѓ РґРѕ РєРѕРЅС†Р°
+			cout << pointer_q->data << ' '; //РІС‹РІРѕР¶Сѓ Р·РЅР°С‡РµРЅРёРµ С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
+			pointer_q = pointer_q->ptr_to_next_node; //РїРµСЂРµС…РѕР¶Сѓ РЅР° СЃР»РµРґСѓСЋС‰РёР№ СѓР·РµР»
 		}
-		else { //если первый элемент - НЕ ключ
-			push(q, q.head_node->data); //переставляю головной элемент в конец очереди
-			pop_element(q); //удаляю головной элемент
+		cout << "-> end" << endl << endl;
+	}
+	else {
+		cout << "РћС‡РµСЂРµРґСЊ РїСѓСЃС‚Р°!";
+	}
+}
+
+void pop_element(Queue& line) { //СѓРґР°Р»СЏСЋ РіРѕР»РѕРІРЅРѕР№ СЌР»РµРјРµРЅС‚ РёР· РѕС‡РµСЂРµРґРё
+	Node* pointer_q = line.head_node; //СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚
+	line.head_node = line.head_node->ptr_to_next_node; //РіРѕР»РѕРІР° - СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚
+	--line.size; //СѓРјРµРЅСЊС€Р°СЋ РґР»РёРЅСѓ РѕС‡РµСЂРµРґРё
+	delete pointer_q; //РѕСЃРІРѕР±РѕР¶РґР°СЋ РїР°РјСЏС‚СЊ
+}
+
+void delete_key(Queue& line, char symbol) {
+	int counter = 0; //СЃС‡РµС‚С‡РёРє
+	while (counter != line.size) { //РїРѕРєР° РЅРµ РѕР±РѕР№РґСѓ РІСЃСЋ РѕС‡РµСЂРµРґСЊ
+		if (line.head_node->data == symbol) { //РµСЃР»Рё РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ - РєР»СЋС‡
+			pop_element(line); //СѓРґР°Р»СЏСЋ РіРѕР»РѕРІСѓ
+		}
+		else { //РµСЃР»Рё РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ - РќР• РєР»СЋС‡
+			push_element(line, line.head_node->data); //РїРµСЂРµСЃС‚Р°РІР»СЏСЋ РіРѕР»РѕРІРЅРѕР№ СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† РѕС‡РµСЂРµРґРё
+			pop_element(line); //СѓРґР°Р»СЏСЋ РіРѕР»РѕРІРЅРѕР№ СЌР»РµРјРµРЅС‚
 			++counter;
 		}
 	}
 }
 
-void insert(Queue& q, int quantity, int number) { //вставляю элементы в нужное место
+void insert(Queue& line, int quantity, int number) { //РІСЃС‚Р°РІР»СЏСЋ СЌР»РµРјРµРЅС‚С‹ РІ РЅСѓР¶РЅРѕРµ РјРµСЃС‚Рѕ
 	int counter = 1;
-	while (counter != number) { //пока не дойду до number
-		push(q, q.head_node->data); //переставляю головной элемент в конец очереди
-		pop_element(q); //удаляю головной элемент
-		++counter;
-		print_queue(q);
-	}
 	char symbol;
-	cout << "----" << endl;
-	for (int i = 0; i < quantity; i++) { //добавляю новые элементы
-		cout << "Введите символ ";
-		cin >> symbol; //ввожу новый символ
-		push(q, symbol); //добавляю новый элемент в конец очереди
-		print_queue(q);
+	while (counter != number) { //РїРѕРєР° РЅРµ РґРѕР№РґСѓ РґРѕ number
+		push_element(line, line.head_node->data); //РїРµСЂРµСЃС‚Р°РІР»СЏСЋ РіРѕР»РѕРІРЅРѕР№ СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† РѕС‡РµСЂРµРґРё
+		pop_element(line); //СѓРґР°Р»СЏСЋ РіРѕР»РѕРІРЅРѕР№ СЌР»РµРјРµРЅС‚
+		++counter;
 	}
-	cout << "----"<< q.size - quantity - number<<' '<< q.size << ' ' << quantity << ' ' << number << endl;
-	for (int i = 0; i <= q.size - quantity - number; i++) {
-
-		push(q, q.head_node->data); //переставляю головной элемент в конец очереди
-		pop_element(q); //удаляю головной элемент
-		print_queue(q);
+	for (int i = 0; i < quantity; i++) { //РґРѕР±Р°РІР»СЏСЋ РЅРѕРІС‹Рµ СЌР»РµРјРµРЅС‚С‹
+		cout << "Р’РІРµРґРёС‚Рµ СЃРёРјРІРѕР» ";
+		cin >> symbol; //РІРІРѕР¶Сѓ РЅРѕРІС‹Р№ СЃРёРјРІРѕР»
+		push_element(line, symbol); //РґРѕР±Р°РІР»СЏСЋ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† РѕС‡РµСЂРµРґРё
+	}
+	for (int i = 0; i <= line.size - quantity - number; i++) { //РїРµСЂРµСЃС‚Р°РІР»СЏСЋ РѕСЃС‚Р°РІС€РёРµСЃСЏ СЌР»РµРјРµРЅС‚С‹
+		push_element(line, line.head_node->data); //РїРµСЂРµСЃС‚Р°РІР»СЏСЋ РіРѕР»РѕРІРЅРѕР№ СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† РѕС‡РµСЂРµРґРё
+		pop_element(line); //СѓРґР°Р»СЏСЋ РіРѕР»РѕРІРЅРѕР№ СЌР»РµРјРµРЅС‚
 	}
 }
 
+void delete_all_queue(Queue& line) {
+	while (line.head_node->ptr_to_next_node != nullptr) { //РїРѕРєР° РЅРµ РґРѕР№ РґСѓ РґРѕ РїРѕСЃР»РµРґРЅРµРіРѕ СЌР»РµРјРµРЅС‚Р°
+		pop_element(line); //СѓРґР°Р»СЏСЋ РіРѕР»РѕРІРЅРѕР№ СЌР»РµРјРµРЅС‚
+	}
+	Node* pointer_q = line.head_node; //СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚
+	line.head_node = nullptr;
+	--line.size; //СѓРјРµРЅСЊС€Р°СЋ СЂР°Р·РјРµСЂ
+	delete pointer_q; //РѕСЃРІРѕР±РѕР¶РґР°СЋ РїР°РјСЏС‚СЊ РѕС‚ РїРѕСЃР»РµРґРЅРµРіРѕ СЌР»РµРјРµРЅС‚Р°
+}
+
 int main() {
-	setlocale(LC_ALL, "Russian"); //локализация
+	setlocale(LC_ALL, "Russian"); //Р»РѕРєР°Р»РёР·Р°С†РёСЏ
 	system("chcp 1251");
 	system("cls");
 
-	Queue q;
-	int n;
+	Queue line; //СЃРѕР·РґР°СЋ РѕС‡РµСЂРµРґСЊ
+
+	int n, befor_add, k;
+	char symbol_key;
 
 	do {
-		cout << "Введите количество элементов ";
-		cin >> n; //количество элементов в списке
+		cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ ";
+		cin >> n; //РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃРїРёСЃРєРµ
 	} while (n < 1);
 	cout << endl;
 
-	new_queue(q, n); //формирую новую очередь
-	print_queue(q);//вывожу текущую очередь
+	new_queue(line, n); //С„РѕСЂРјРёСЂСѓСЋ РЅРѕРІСѓСЋ РѕС‡РµСЂРµРґСЊ
+	print_queue(line);//РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰СѓСЋ РѕС‡РµСЂРµРґСЊ
 
-	char symbol_key;
-
-	cout << "Введите КЛЮЧ элемента, который вы хотите удалить ";
+	cout << "Р’РІРµРґРёС‚Рµ РљР›Р®Р§ СЌР»РµРјРµРЅС‚Р°, РєРѕС‚РѕСЂС‹Р№ РІС‹ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ ";
 	cin >> symbol_key;
 
-	delete_key(q, symbol_key); //удаляю ключ
-	print_queue(q);//вывожу текущую очередь
-
-	int befor_add, k;
+	delete_key(line, symbol_key); //СѓРґР°Р»СЏСЋ РєР»СЋС‡
+	print_queue(line); //РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰СѓСЋ РѕС‡РµСЂРµРґСЊ
 
 	do {
-		cout << "Введите номер элемента, ПЕРЕД которым необходимо добавить новые элементы ";
-		cin >> befor_add; //НОМЕР элемента
-	} while (befor_add < 1 || befor_add > n);
+		cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЌР»РµРјРµРЅС‚Р°, РџР•Р Р•Р” РєРѕС‚РѕСЂС‹Рј РЅРµРѕР±С…РѕРґРёРјРѕ РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Рµ СЌР»РµРјРµРЅС‚С‹ ";
+		cin >> befor_add; //РќРћРњР•Р  СЌР»РµРјРµРЅС‚Р°
+	} while (befor_add < 1 || befor_add > line.size);
 	cout << endl;
 
 	do {
-		cout << "Введите количество элементов, которые необходимо добавить ";
-		cin >> k; //количество элементов, которые надо добавить
+		cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РЅРµРѕР±С…РѕРґРёРјРѕ РґРѕР±Р°РІРёС‚СЊ ";
+		cin >> k; //РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РЅР°РґРѕ РґРѕР±Р°РІРёС‚СЊ
 	} while (k < 1);
 	cout << endl;
 
-	insert(q, k, befor_add);
-	print_queue(q);//вывожу текущую очередь
+	insert(line, k, befor_add); //РІСЃР°РІР»СЏСЋ РЅРѕРІС‹Рµ СЌР»РµРјРµРЅС‚С‹
+	print_queue(line);//РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰СѓСЋ РѕС‡РµСЂРµРґСЊ
+
+	cout << "РћС‡РёС‰РµРЅРёРµ РїР°РјСЏС‚Рё ..." << endl;
+	delete_all_queue(line); //РѕС‡РёС‰Р°СЋ РІСЃСЋ РѕС‡РµСЂРµРґСЊ
+	cout << "Р—Р°РІРµСЂС€РµРЅРѕ" << endl;
+
+	print_queue(line); //РІС‹РІРѕР¶Сѓ С‚РµРєСѓС‰СѓСЋ РѕС‡РµСЂРµРґСЊ
 
 	return 0;
 }
