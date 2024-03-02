@@ -6,8 +6,6 @@ struct Stack {
 	Stack* ptr_to_prev; //адрес на предыдущий элемент
 };
 
-
-
 Stack* make_stack( int n) {
 	if (n != 0) {
 		char symbol;
@@ -21,7 +19,7 @@ Stack* make_stack( int n) {
 		pointer_element->ptr_to_prev = NULL; //адрес на предыдущий элемент
 		the_upper_element = pointer_element; //изменяю верхний элемент в стеке
 
-		for (int i = 1; i < n; i++) {
+		for (int i = 1; i < n; i++) { //добавление новых элемнтов
 			Stack* new_element = new Stack;
 			cout << "Введите символ ";
 			cin >> symbol;
@@ -40,10 +38,10 @@ Stack* push(Stack*& the_upper_element, char symbol) {
 	pointer->data = symbol; //присваиваю данные новому элементу
 	pointer->ptr_to_prev = the_upper_element; //адрес предыдущего элемента
 	the_upper_element = pointer; //новый верхний элемент
-	return the_upper_element;
+	return the_upper_element; //возвращаю новый верхний элемент
 }
 
-char pop_element(Stack*& the_upper_element) { //удаление элемента
+char pop_element(Stack*& the_upper_element) { //нахожу верхний элемент
 	Stack* pointer_element = the_upper_element;
 	int k = 0;
 	while (pointer_element != NULL) {
@@ -51,45 +49,64 @@ char pop_element(Stack*& the_upper_element) { //удаление элемента
 		pointer_element = pointer_element->ptr_to_prev;
 	}
 	pointer_element = the_upper_element;
+
 	if (k == 1) {
-		char t = the_upper_element->data;
+		char data_upper = the_upper_element->data; //данные верхнего элемента
 		delete pointer_element;
 		the_upper_element = NULL;
-		return t;
+		return data_upper;
 	}
 	else {
 		Stack* t = pointer_element->ptr_to_prev;
-		char u = pointer_element->data;
-		the_upper_element = t;
+		char data_ptr = pointer_element->data; //данные необходимого элемента
+		the_upper_element = t; //меняю верхний элемент
 		delete pointer_element;
-		return u;
+		return data_ptr;
+	}
+	//the_upper_element - верхний элемент
+}
+
+void from_stack_to_stack(Stack*& stack_num_1, Stack*& stack_num_2, int n) {
+	//перенос элементов из стека в стек
+	for (int i = 0; i < n; i++) { //переношу элементы из стека 1 в стек 2
+		char t = pop_element(stack_num_1); //извлекаю верхний элемент из первого
+		push(stack_num_2, t); //переношу элементы во второй стек
 	}
 }
 
 
-
 void print_stack(Stack* the_upper_element) {
-	cout << "Текущий стек:" << endl;
-	if (the_upper_element != NULL) {
+	cout << endl << "Текущий стек:" << endl;
+	if (the_upper_element != NULL) { //если стек не пустой
 		Stack* pointer_element = the_upper_element;
-		while (pointer_element != NULL) {
+		while (pointer_element != NULL) { //пока не дойду до нижнего элемента
 			cout << pointer_element->data << ' ';
 			pointer_element = pointer_element->ptr_to_prev;
 		}
-		//память
+		delete pointer_element; //освобождаю память
 	}
-	else {
+	else { //если стек пуст
 		cout << "Стек пуст!";
 	}
-	cout << endl;
+	cout << endl << endl;
+}
 
+void del_all_stack(Stack*& the_upper_element) { //удаление всех элементов стека
+	while (the_upper_element->ptr_to_prev != NULL) {
+		Stack* pointer_element = the_upper_element->ptr_to_prev;
+		delete the_upper_element; //освобождение памяти верхнего элемента
+		the_upper_element = pointer_element;
+	}
+	the_upper_element = NULL;
 }
 
 int main() {
 	setlocale(LC_ALL, "Russian"); //локализация
+	system("chcp 1251");
+	system("cls");
 
-	int n;
-	char symbol;
+	int n, k = 0, befor_add;
+	char symbol_key;
 
 	do {
 		cout << "Введите количество элементов ";
@@ -97,73 +114,57 @@ int main() {
 	} while (n < 1);
 	cout << endl;
 
-	cout << "Введите элементы стека " << endl;
+	cout << "Введите элементы стека:" << endl;
 
-	Stack* st = make_stack(n);
-	
-
-	print_stack(st);
-
-	char b;
+	Stack* stack_1 = make_stack(n); //создаю стек
+	print_stack(stack_1); //вывожу текущий стек
 
 	cout << "Введите КЛЮЧ элемента, который вы хотите удалить ";
-	cin >> b;
+	cin >> symbol_key;
 
-	int k = 0;
-	cout << "1---------1" << endl;
-	Stack* st2 = make_stack(0);
+	Stack* stack_2 = make_stack(0); //создаю пустой стек
 	for (int i = 0; i < n; i++) {
-		cout << i<<' ' << endl;
-		char t = pop_element(st);
-		cout << i << ' ' <<t << endl;
-		if (t != b) {
-			push(st2, t);
+		//перенос всех элементов кроме элемента с КЛЮЧОМ во второй стек
+		char t = pop_element(stack_1); //извлекаю верхний элемент
+		if (t != symbol_key) { //если символ не равен ключевому
+			push(stack_2, t); //переношу во второй стек
 		}
-		else {
-			++k;
+		else { //если символ равен ключевому
+			++k; //увеличиваю количество ключевых символов
 		}
 	}
-	n -= k;
-	cout << "2---------2" << endl;
-	for (int i = 0; i < n; i++) {
-		char t = pop_element(st2);
-		push(st, t);
-	}
-	cout << "3---------3" << endl;
-	print_stack(st);
+	n -= k;//изменяю количество элементов в стеке
+
+	from_stack_to_stack(stack_2, stack_1, n);
+	print_stack(stack_1); //вывожу текущий стек
 
 	do {
-		cout << "Введите количество элементов, которые необходимо добавить ";
+		cout << "Введите количество элементов, которые необходимо ДОБАВИТЬ ";
 		cin >> k; //количество элементов, которые надо добавить
 	} while (k < 1);
-
-	int befor_add;
+	cout << endl;
 
 	do {
 		cout << "Введите номер элемента, ПЕРЕД которым необходимо добавить новые элементы ";
 		cin >> befor_add; //НОМЕР элемента
 	} while (befor_add < 1 || befor_add > n);
 	cout << endl;
-	cout << "4---------4" << endl;
-	for (int i = 0; i < n - befor_add + 1; i++) {
-		char t = pop_element(st);
-		push(st2, t);
-	}
-	cout << "5---------5" << endl;
+	
+	from_stack_to_stack(stack_1, stack_2, n - befor_add + 1);
+
+	cout << "Введите новые элементы стека:" << endl;
 	for (int i = 0; i < k; i++) {
 		cout << "Введите символ ";
-		cin >> b;
-
-		push(st, b);
+		cin >> symbol_key;
+		push(stack_1, symbol_key); //добавляю символ в стек 1
 	}
-	cout << "6---------6" << endl;
-	for (int i = 0; i < n - befor_add + 1; i++) {
 
-		char t = pop_element(st2);
-		push(st, t);
-	}
-	cout << "7---------7" << endl;
-	print_stack(st);
+	from_stack_to_stack(stack_2, stack_1, n - befor_add + 1);
+	print_stack(stack_1); //вывожу текущий стек
 
+	n += k;//изменяю количество элементов в стеке
+	cout << "Очищение памяти ..." << endl;
+	del_all_stack(stack_1); //
+	print_stack(stack_1);//вывожу текущий стек
 	return 0;
 }
