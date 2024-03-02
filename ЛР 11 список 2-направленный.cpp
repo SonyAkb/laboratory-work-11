@@ -12,18 +12,31 @@ struct List {
     Node* teil_node = nullptr;
 };
 
-void insrt_Item(List& list, const int& data, const int& index = 0) { //добавляю новый элемент в конец списка
+void insrt_Item(List& list, const int& data, const int& index = 0, int selector = 1) { //добавляю новый элемент в конец списка
     Node* new_node = new Node; //создаю новый динамический узел
     new_node->data = data; //присваиваю полю узла данные
     
     if (list.head_node == nullptr) {
         list.head_node = new_node;
         list.teil_node = new_node;
-        cout << "Нулевой" << endl;
+        //cout << "Нулевой" << endl;
         return;
     }
-    cout << "Не нулевой" << endl;
+    //cout << "Не нулевой" << endl;
     int counter = 0;
+
+    if (index == 0 && selector == 2) {
+        //cout << "Протокол 2" << endl;
+        //cout << new_node->data << '|' << list.head_node->data <<endl;
+
+        new_node->ptr_to_next_node = list.head_node;
+        list.head_node = new_node;
+        
+        //cout << list.head_node->data << " | " << list.head_node->ptr_to_next_node->data << endl;
+        //cout << list.head_node->data << ' ' << list.head_node->ptr_to_next_node->data << ' ' << list.head_node->ptr_to_next_node->ptr_to_next_node->data << ' ' << list.head_node->ptr_to_next_node->ptr_to_next_node->ptr_to_next_node->data;
+        //cout << endl;
+        return;
+    }
 
     Node* current_node = list.head_node;
     while (counter != index) {
@@ -48,9 +61,7 @@ void pop_element(List& list, int num_del_el, int n) { //удаление элемента
             list.head_node = new_Head; //присваиваю головному элементу новый элемент
         }
         else if (num_del_el == n) {
-            cout << "n" << endl;
             Node* new_Teil = list.teil_node->ptr_to_prev_node;
-            cout << new_Teil->data << endl;
             new_Teil->ptr_to_next_node = nullptr;
             delete list.teil_node; //удаляю текущий хвостовой элемент
             list.teil_node = new_Teil; //присваиваю хвостовому элементу новый элемент
@@ -60,13 +71,14 @@ void pop_element(List& list, int num_del_el, int n) { //удаление элемента
             for (int i = 0; i < num_del_el - 2; i++) { //иду ДО элемента, который надо удалять
                 pointer_node = pointer_node->ptr_to_next_node;
             }
-            cout << "Элемент " << pointer_node->data << endl;
             Node* connection_node = pointer_node->ptr_to_next_node; //связываю узлы
             pointer_node->ptr_to_next_node = connection_node->ptr_to_next_node;
             connection_node->ptr_to_next_node->ptr_to_prev_node = connection_node->ptr_to_prev_node;
             delete connection_node; //освобождаю память
         }
     }
+    //n - всего элементов в списке
+    //num_del_el - индекс элемента который надо удалить
 }
 
 void print_list(List& list) { //вывод текущего списка
@@ -119,6 +131,30 @@ int main() {
     cout << endl;
 
     pop_element(list, num_del_el, n); //удаляю элемент
+    --n;
+    print_list(list); //вывожу текущий массив
+
+    do {
+        cout << "Введите номер элемента, ПЕРЕД которым необходимо добавить новые элементы ";
+        cin >> befor_add; //НОМЕР элемента
+    } while (befor_add < 1 || befor_add > n);
+    cout << endl;
+
+    do {
+        cout << "Введите количество элементов, которые необходимо добавить ";
+        cin >> k; //количество элементов, которые надо добавить
+    } while (k < 1);
+    cout << endl;
+
+    for (int i = 0; i < k; i++) {
+        cout << "Введите символ ";
+        cin >> symbol;
+        if (befor_add == 1 && i == 0 ) {
+            insrt_Item(list, symbol, i, 2);
+        }
+        else insrt_Item(list, symbol, befor_add - 2 + i); 
+    }
+
     print_list(list); //вывожу текущий массив
 
     return 0;
