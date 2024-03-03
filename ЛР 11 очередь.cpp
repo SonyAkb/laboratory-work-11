@@ -14,6 +14,83 @@ struct Queue { //очередь
 	Node* teil_node = nullptr;
 };
 
+void init_queue(Queue& line, const char& symbol); //инициализирую очередь
+void push_element(Queue& line, const char& symbol); //добавляю элемент в конец очереди
+void new_queue(Queue& line, int n); //формирую очередь
+void print_queue(Queue& line); //вывод очереди
+void pop_element(Queue& line); //удаляю головной элемент из очереди
+void delete_key(Queue& line, char symbol); //удаляю элемент по ключу
+void insert(Queue& line, int quantity, int number); //вставляю элементы в нужное место
+void delete_all_queue(Queue& line);
+void writing_to_a_file(Queue& line, ofstream& file); //запись данных в файл	
+void recovery(Queue& line, ifstream& file); //восстановление
+	
+
+int main() {
+	setlocale(LC_ALL, "Russian"); //локализация
+	system("chcp 1251");
+	system("cls");
+
+	ifstream input("F11.txt"); //входной файловый поток
+	ofstream output("F11.txt"); //выходной файловый поток
+
+	Queue line; //создаю очередь
+
+	int n, befor_add, k;
+	char symbol_key;
+
+	do {
+		cout << "Введите количество элементов ";
+		cin >> n; //количество элементов в списке
+	} while (n < 1);
+	cout << endl;
+
+	new_queue(line, n); //формирую новую очередь
+	print_queue(line);//вывожу текущую очередь
+
+	cout << "Введите КЛЮЧ элемента, который вы хотите удалить ";
+	cin >> symbol_key;
+
+	delete_key(line, symbol_key); //удаляю ключ
+	print_queue(line); //вывожу текущую очередь
+
+	do {
+		cout << "Введите номер элемента, ПЕРЕД которым необходимо добавить новые элементы ";
+		cin >> befor_add; //НОМЕР элемента
+	} while (befor_add < 1 || befor_add > line.size);
+	cout << endl;
+
+	do {
+		cout << "Введите количество элементов, которые необходимо добавить ";
+		cin >> k; //количество элементов, которые надо добавить
+	} while (k < 1);
+	cout << endl;
+
+	insert(line, k, befor_add); //всавляю новые элементы
+	print_queue(line);//вывожу текущую очередь
+
+	cout << "Запись данных в файл ..." << endl;
+	writing_to_a_file(line, output);
+	cout << "Завершено" << endl << endl;
+
+	cout << "Очищение памяти ..." << endl;
+	delete_all_queue(line); //очищаю всю очередь
+	cout << "Завершено" << endl;
+
+	print_queue(line); //вывожу текущую очередь
+
+	cout << "Восстановление очереди ..." << endl;
+	cin.ignore();
+	recovery(line, input);
+	cout << "Завершено" << endl;
+
+	print_queue(line); //вывожу текущую очередь
+
+	input.close(); //закрываю файл
+	output.close();//закрываю файл
+	return 0;
+}
+
 void init_queue(Queue& line, const char& symbol) { //инициализирую очередь
 	Node* new_node = new Node; //резервирую память под новый элемент
 	new_node->data = symbol; //присваиваю данные
@@ -100,7 +177,7 @@ void insert(Queue& line, int quantity, int number) { //вставляю элем
 }
 
 void delete_all_queue(Queue& line) {
-	while (line.head_node->ptr_to_next_node != nullptr) { //пока не дой ду до последнего элемента
+	while (line.head_node->ptr_to_next_node != nullptr) { //пока не дойду до последнего элемента
 		pop_element(line); //удаляю головной элемент
 	}
 	Node* pointer_q = line.head_node; //указатель на первый элемент
@@ -126,69 +203,4 @@ void recovery(Queue& line, ifstream& file) { //восстановление
 	while (getline(file, all_str)) { //пока не пройду фесь файл
 		push_element(line, all_str[0]); //добавляю в очередь
 	}
-}
-
-int main() {
-	setlocale(LC_ALL, "Russian"); //локализация
-	system("chcp 1251");
-	system("cls");
-
-	ifstream input("F11.txt"); //входной файловый поток
-	ofstream output("F11.txt"); //выходной файловый поток
-
-	Queue line; //создаю очередь
-
-	int n, befor_add, k;
-	char symbol_key;
-
-	do {
-		cout << "Введите количество элементов ";
-		cin >> n; //количество элементов в списке
-	} while (n < 1);
-	cout << endl;
-
-	new_queue(line, n); //формирую новую очередь
-	print_queue(line);//вывожу текущую очередь
-
-	cout << "Введите КЛЮЧ элемента, который вы хотите удалить ";
-	cin >> symbol_key;
-
-	delete_key(line, symbol_key); //удаляю ключ
-	print_queue(line); //вывожу текущую очередь
-
-	do {
-		cout << "Введите номер элемента, ПЕРЕД которым необходимо добавить новые элементы ";
-		cin >> befor_add; //НОМЕР элемента
-	} while (befor_add < 1 || befor_add > line.size);
-	cout << endl;
-
-	do {
-		cout << "Введите количество элементов, которые необходимо добавить ";
-		cin >> k; //количество элементов, которые надо добавить
-	} while (k < 1);
-	cout << endl;
-
-	insert(line, k, befor_add); //всавляю новые элементы
-	print_queue(line);//вывожу текущую очередь
-
-	cout << "Запись данных в файл ..." << endl;
-	writing_to_a_file(line, output);
-	cout << "Завершено" << endl << endl;
-
-	cout << "Очищение памяти ..." << endl;
-	delete_all_queue(line); //очищаю всю очередь
-	cout << "Завершено" << endl;
-
-	print_queue(line); //вывожу текущую очередь
-
-	cout << "Восстановление очереди ..." << endl;
-	cin.ignore();
-	recovery(line, input);
-	cout << "Завершено" << endl;
-
-	print_queue(line); //вывожу текущую очередь
-
-	input.close(); //закрываю файл
-	output.close();//закрываю файл
-	return 0;
 }
