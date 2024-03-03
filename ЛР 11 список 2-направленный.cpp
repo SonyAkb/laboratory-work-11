@@ -1,4 +1,6 @@
 ﻿#include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
 
 struct Node {
@@ -107,10 +109,34 @@ void del_all_list(List& list) {
     }
 }
 
+void writing_to_a_file(List& list, ofstream& file) { //запись данных в файл
+    if (list.head_node != nullptr) {//если список не пустой
+        Node* pointer_q = list.head_node; //указатель на первый элемент
+        while (pointer_q != nullptr) { //пока не дойду до конца
+            file << pointer_q->data << endl;
+            pointer_q = pointer_q->ptr_to_next_node; //перехожу на следующий узел
+        }
+    }
+}
+
+void recovery(List& list, ifstream& file) { //восстановление
+    string all_str;
+    getline(file, all_str); //считываю строку
+    insrt_Item(list, all_str[0]);
+    int counter = 0;
+    while (getline(file, all_str)) { //пока не пройду весь файл
+        insrt_Item(list, all_str[0], counter); //добавляю
+        counter++;
+    }
+}
+
 int main() {
     setlocale(LC_ALL, "Russian"); //локализация
     system("chcp 1251");
     system("cls");
+
+    ifstream input("F11.txt"); //входной файловый поток
+    ofstream output("F11.txt"); //выходной файловый поток
 
     int n, k, befor_add;
     char symbol;
@@ -167,10 +193,24 @@ int main() {
 
     print_list(list); //вывожу текущий массив
 
+    cout << "Запись данных в файл ..." << endl;
+    writing_to_a_file(list, output);
+    cout << "Завершено" << endl << endl;
+
     cout << "Очищение памяти ..." << endl;
     del_all_list(list);
     cout << "Завершено" << endl;
     print_list(list); //вывожу текущий массив
+
+    cout << "Восстановление списка ..." << endl;
+    cin.ignore();
+    recovery(list, input);
+    cout << "Завершено" << endl;
+
+    print_list(list); //вывожу текущую очередь
+
+    input.close(); //закрываю файл
+    output.close();//закрываю файл
 
     return 0;
 }

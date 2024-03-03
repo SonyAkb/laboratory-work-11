@@ -1,4 +1,6 @@
 ﻿#include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
 
 struct Stack { //стек
@@ -21,7 +23,7 @@ Stack* make_stack( int n) {
 
 		for (int i = 1; i < n; i++) { //добавление новых элемнтов
 			Stack* new_element = new Stack;
-			cout << "Введите символ ";
+			cout << "Введите элемент ";
 			cin >> symbol;
 
 			new_element->data = symbol;
@@ -74,8 +76,7 @@ void from_stack_to_stack(Stack*& stack_num_1, Stack*& stack_num_2, int n) {
 	}
 }
 
-
-void print_stack(Stack* the_upper_element) {
+void print_stack(Stack* the_upper_element) { //вывод стека
 	cout << endl << "Текущий стек:" << endl;
 	if (the_upper_element != NULL) { //если стек не пустой
 		Stack* pointer_element = the_upper_element; //указатель на первый элемент
@@ -100,10 +101,42 @@ void del_all_stack(Stack*& the_upper_element) { //удаление всех эл
 	the_upper_element = NULL;
 }
 
+void writing_to_a_file(Stack* the_upper_element, ofstream& file) { //запись данных в файл
+	if (the_upper_element != NULL) { //если стек не пустой
+		Stack* pointer_element = the_upper_element; //указатель на первый элемент
+		while (pointer_element != NULL) { //пока не дойду до нижнего элемента
+			//cout<< the_upper_element->data << endl;
+			file << pointer_element->data << endl;
+			pointer_element = pointer_element->ptr_to_prev;
+		}
+		delete pointer_element; //освобождаю память
+	}
+}
+
+void recovery(Stack*& the_upper_element, ifstream& file, int n) { //восстановление стека
+	Stack* the_new_stack, * pointer_element = new Stack;
+	the_new_stack = NULL;
+
+	string all_str;
+	getline(file, all_str); //считываю строку
+
+	pointer_element->data = all_str[0]; //присваиваю знаяение новому элементу
+	pointer_element->ptr_to_prev = NULL; //адрес на предыдущий элемент
+	the_new_stack = pointer_element; //изменяю верхний элемент в стеке
+
+	while (getline(file, all_str)) { //пока не пройду фесь файл
+		push(the_new_stack, all_str[0]); //переношу элементы во временный стек
+	}
+	from_stack_to_stack(the_new_stack, the_upper_element, n); //переношу элементы в главный стек
+}
+
 int main() {
 	setlocale(LC_ALL, "Russian"); //локализация
 	system("chcp 1251");
 	system("cls");
+
+	ifstream input("F11.txt"); //входной файловый поток
+	ofstream output("F11.txt"); //выходной файловый поток
 
 	int n, k = 0, befor_add;
 	char symbol_key;
@@ -113,8 +146,6 @@ int main() {
 		cin >> n; //количество элементов в списке
 	} while (n < 1);
 	cout << endl;
-
-	cout << "Введите элементы стека:" << endl;
 
 	Stack* stack_1 = make_stack(n); //создаю стек
 	print_stack(stack_1); //вывожу текущий стек
@@ -163,9 +194,24 @@ int main() {
 	print_stack(stack_1); //вывожу текущий стек
 
 	n += k;//изменяю количество элементов в стеке
+
+	cout << "Запись данных в файл ..." << endl;
+	writing_to_a_file(stack_1, output);
+	cout << "Завершено" << endl << endl;
+
 	cout << "Очищение памяти ..." << endl;
 	del_all_stack(stack_1); //очищаю весь стек
 	cout << "Завершено" << endl;
 	print_stack(stack_1);//вывожу текущий стек
+
+	cout << "Восстановление стека ..." << endl;
+	cin.ignore();
+	recovery(stack_1, input, n);
+	cout << "Завершено" << endl;
+
+	print_stack(stack_1); //вывожу текущую очередь
+
+	input.close(); //закрываю файл
+	output.close();//закрываю файл
 	return 0;
 }

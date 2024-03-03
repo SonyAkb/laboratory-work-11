@@ -1,4 +1,6 @@
 ﻿#include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
 
 struct Node {
@@ -25,7 +27,7 @@ void push_element(Queue& line, const char& symbol) { //добавляю элем
 	line.size++; //увеличиваю текущий размер очереди на один
 	new_node->data = symbol; //присваиваю данные
 	new_node->ptr_to_next_node = nullptr; //последний элемент не указывает на ч-л
-	line.teil_node ->ptr_to_next_node = new_node; //прошлый последний элемент указывает на новый последний
+	line.teil_node->ptr_to_next_node = new_node; //прошлый последний элемент указывает на новый последний
 	line.teil_node = new_node; //новый хвостовой элемент
 }
 
@@ -53,7 +55,7 @@ void print_queue(Queue& line) { //вывод очереди
 		cout << "-> end" << endl << endl;
 	}
 	else {
-		cout << "Очередь пуста!";
+		cout << "Очередь пуста!" << endl << endl;
 	}
 }
 
@@ -64,7 +66,7 @@ void pop_element(Queue& line) { //удаляю головной элемент �
 	delete pointer_q; //освобождаю память
 }
 
-void delete_key(Queue& line, char symbol) {
+void delete_key(Queue& line, char symbol) { //удаляю элемент по ключу
 	int counter = 0; //счетчик
 	while (counter != line.size) { //пока не обойду всю очередь
 		if (line.head_node->data == symbol) { //если первый элемент - ключ
@@ -107,10 +109,32 @@ void delete_all_queue(Queue& line) {
 	delete pointer_q; //освобождаю память от последнего элемента
 }
 
+void writing_to_a_file(Queue& line, ofstream& file) { //запись данных в файл
+	if (line.head_node != nullptr) {
+		Node* pointer_q = line.head_node; //указатель на первый элемент
+		while (pointer_q != nullptr) { //пока не дойду до конца
+			file << pointer_q->data << endl;
+			pointer_q = pointer_q->ptr_to_next_node; //перехожу на следующий узел
+		}
+	}
+}
+
+void recovery(Queue& line, ifstream& file) { //восстановление
+	string all_str;
+	getline(file, all_str); //считываю строку
+	init_queue(line, all_str[0]); //добавляю в очередь
+	while (getline(file, all_str)) { //пока не пройду фесь файл
+		push_element(line, all_str[0]); //добавляю в очередь
+	}
+}
+
 int main() {
 	setlocale(LC_ALL, "Russian"); //локализация
 	system("chcp 1251");
 	system("cls");
+
+	ifstream input("F11.txt"); //входной файловый поток
+	ofstream output("F11.txt"); //выходной файловый поток
 
 	Queue line; //создаю очередь
 
@@ -147,11 +171,24 @@ int main() {
 	insert(line, k, befor_add); //всавляю новые элементы
 	print_queue(line);//вывожу текущую очередь
 
+	cout << "Запись данных в файл ..." << endl;
+	writing_to_a_file(line, output);
+	cout << "Завершено" << endl << endl;
+
 	cout << "Очищение памяти ..." << endl;
 	delete_all_queue(line); //очищаю всю очередь
 	cout << "Завершено" << endl;
 
 	print_queue(line); //вывожу текущую очередь
 
+	cout << "Восстановление очереди ..." << endl;
+	cin.ignore();
+	recovery(line, input);
+	cout << "Завершено" << endl;
+
+	print_queue(line); //вывожу текущую очередь
+
+	input.close(); //закрываю файл
+	output.close();//закрываю файл
 	return 0;
 }

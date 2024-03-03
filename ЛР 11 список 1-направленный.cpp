@@ -1,4 +1,6 @@
 ﻿#include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
 
 struct Node {
@@ -48,7 +50,7 @@ void add_elements(List& list, int befor_number) { //добавляю новый 
 }
 
 void print_list(List& list) { //вывод текущего списка
-    cout << "Текущий список:" << endl;
+    cout << endl << "Текущий список:" << endl;
     Node* current_node = list.head_node;
     if (current_node != nullptr) {
         while (current_node != nullptr) { //пока не дойду до последнего элемента
@@ -103,10 +105,35 @@ void del_all_list(List& list) {
     }
 }
 
+void writing_to_a_file(List& list, ofstream& file) { //запись данных в файл
+    if (list.head_node != nullptr) {//если список не пустой
+        Node* pointer_q = list.head_node; //указатель на первый элемент
+        while (pointer_q != nullptr) { //пока не дойду до конца
+            file << pointer_q->data << endl;
+            pointer_q = pointer_q->ptr_to_next_node; //перехожу на следующий узел
+        }
+    }
+}
+
+void recovery(List& list, ifstream& file) { //восстановление
+    string all_str;
+    getline(file, all_str); //считываю строку
+    Node* new_node = new Node; //создаю новый динамический узел
+    new_node->data = all_str[0]; //присваиваю полю узла данные
+    list.head_node = new_node; //новый узел - головной узел списка
+    list.teil_node = new_node; //новый узел - хвостовой узел списка
+    while (getline(file, all_str)) { //пока не пройду весь файл
+        pushBack(list, all_str[0]); //добавляю
+    }
+}
+
 int main() {
     setlocale(LC_ALL, "Russian"); //локализация
     system("chcp 1251");
     system("cls");
+
+    ifstream input("F11.txt"); //входной файловый поток
+    ofstream output("F11.txt"); //выходной файловый поток
 
     int n, k, befor_add;
     char symbol_key;
@@ -124,16 +151,13 @@ int main() {
         cin >> symbol_key;
         pushBack(list, symbol_key);
     }
-    cout << endl;
 
     print_list(list); //вывожу текущий массив
 
     cout << "Введите КЛЮЧ элемента, который вы хотите удалить ";
     cin >> symbol_key;
 
-    cout << endl;
     pop_element(list, symbol_key); //удаляю элемент
-    cout << "------" << endl;
     --n; //изменяю длину списка
     print_list(list); //вывожу текущий массив
 
@@ -153,14 +177,27 @@ int main() {
     for (int i = 0; i < k; i++) { //добавляю новые элементы
         add_elements(list, befor_add + i);
     }
-    cout << endl;
+
+    cout << "Запись данных в файл ..." << endl;
+    writing_to_a_file(list, output);
+    cout << "Завершено" << endl << endl;
+
     print_list(list); //вывожу текущий массив
     cout << "Очищение памяти ..." << endl;
     del_all_list(list);
 
     cout << "Завершено" << endl;
-    cout << endl;
     print_list(list); //вывожу текущий массив
+
+    cout << "Восстановление списка ..." << endl;
+    cin.ignore();
+    recovery(list, input);
+    cout << "Завершено" << endl;
+
+    print_list(list); //вывожу текущую очередь
+
+    input.close(); //закрываю файл
+    output.close();//закрываю файл
 
     return 0;
 }
